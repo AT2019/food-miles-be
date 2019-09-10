@@ -65,7 +65,7 @@ exports.userLogin = async (req, res, next) => {
 exports.verifyToken = (req, res, next) => {
   const token = req.header('auth-token');
   if (!token) {
-    return res.status(401).send('Access Denied');
+    return res.status(401).send({ msg: 'Access Denied' });
   }
   try {
     const verified = jwt.verify(token, process.env.TOKEN_SECRET);
@@ -77,5 +77,5 @@ exports.verifyToken = (req, res, next) => {
 };
 
 exports.posts = (req, res, next) => {
-  res.send(req.user);
+  res.status(200).send(req.user);
 };

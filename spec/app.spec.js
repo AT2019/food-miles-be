@@ -177,4 +177,58 @@ describe('APP', () => {
         });
     });
   });
+  describe('/posts', () => {
+    it('GET status 200 - if successfully logged in, it responds with 200 and auth-key is available on header', () => {
+      return request(app)
+        .post('/api/user/register')
+        .send({
+          name: 'John BEST',
+          email: 'test3@hotmail.com',
+          password: 'pass123'
+        })
+        .then(() => {
+          return request(app)
+            .post('/api/user/login')
+            .send({
+              email: 'test3@hotmail.com',
+              password: 'pass123'
+            })
+            .then(() => {
+              return request(app)
+                .get('/api/posts')
+                .set(
+                  'auth-token',
+                  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZDc3YjBhMzJiMTBiYjU5MmNlZTM3YzQiLCJpYXQiOjE1NjgxMjUxMDV9.Zz3EvfFpiSM4VsRM1MToUPHATtvuu3jPDWvbpOArNQI'
+                )
+                .expect(200);
+              // .then(body => expect(body.text).to.include.keys('_id'));
+            });
+        });
+    });
+    it('GET status 200 - if not logged in, it responds with 401 and an error message', () => {
+      return request(app)
+        .post('/api/user/register')
+        .send({
+          name: 'John BEST',
+          email: 'test3@hotmail.com',
+          password: 'pass123'
+        })
+        .then(() => {
+          return request(app)
+            .post('/api/user/login')
+            .send({
+              email: 'test3@hotmail.com',
+              password: 'pass123'
+            })
+            .then(() => {
+              return request(app)
+                .get('/api/posts')
+                .expect(401)
+                .then(({ body: { msg } }) =>
+                  expect(msg).to.equal('Access Denied')
+                );
+            });
+        });
+    });
+  });
 });

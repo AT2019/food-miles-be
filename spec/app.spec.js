@@ -100,13 +100,81 @@ describe('APP', () => {
   describe('/user/login', () => {
     it('POST status 200 - if email and password matches it responds OK', () => {
       return request(app)
-        .post('/api/user/login')
+        .post('/api/user/register')
         .send({
+          name: 'John BEST',
           email: 'test3@hotmail.com',
           password: 'pass123'
         })
-        .expect(200)
-        .then(token => console.log(token, 'SPEC'));
+        .then(() => {
+          return request(app)
+            .post('/api/user/login')
+            .send({
+              email: 'test3@hotmail.com',
+              password: 'pass123'
+            })
+            .then(token => expect(token.headers).to.include.keys('auth-token'));
+        });
+    });
+    it('ERROR status 400 - if email is invalid,it responds with an error message', () => {
+      return request(app)
+        .post('/api/user/register')
+        .send({
+          name: 'John BEST',
+          email: 'test3@hotmail.com',
+          password: 'pass123'
+        })
+        .then(() => {
+          return request(app)
+            .post('/api/user/login')
+            .send({
+              email: 'test3hotmail.com',
+              password: 'pass123'
+            })
+            .then(({ body: { msg } }) =>
+              expect(msg).to.equal('"email" must be a valid email')
+            );
+        });
+    });
+    it('ERROR status 400 - if email doesn`t match,it responds with an error message', () => {
+      return request(app)
+        .post('/api/user/register')
+        .send({
+          name: 'John BEST',
+          email: 'test3@hotmail.com',
+          password: 'pass123'
+        })
+        .then(() => {
+          return request(app)
+            .post('/api/user/login')
+            .send({
+              email: 'test@hotmail.com',
+              password: 'pass123'
+            })
+            .then(({ body: { msg } }) =>
+              expect(msg).to.equal("Email doesn't exist")
+            );
+        });
+    });
+    it('ERROR status 400 - if password doesn`t match,it responds with an error message', () => {
+      return request(app)
+        .post('/api/user/register')
+        .send({
+          name: 'John BEST',
+          email: 'test3@hotmail.com',
+          password: 'pass123'
+        })
+        .then(() => {
+          return request(app)
+            .post('/api/user/login')
+            .send({
+              email: 'test3@hotmail.com',
+              password: 'passs123'
+            })
+            .then(({ body: { msg } }) =>
+              expect(msg).to.equal('Invalid password')
+            );
+        });
     });
   });
 });

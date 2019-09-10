@@ -13,6 +13,6 @@ mongoose.connect(config.url, { useNewUrlParser: true }, () => {
 app.use(express.json());
 app.use('/api', apiRouter);
 
-app.listen(3001, () => console.log('Server is listening...'));
+app.listen(3003, () => console.log('Server is listening...'));
 
 module.exports = { app };

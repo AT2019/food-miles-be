@@ -4,6 +4,7 @@ const readImage = require("../models/tesseractModel");
 const selectCountryFromPhoto = (req, res, next) => {
   console.log("<-- in controller");
   const body = req.body;
+  //   console.log(body, "<--body");
   readImage(body).then(words => {
     console.log(words);
   });

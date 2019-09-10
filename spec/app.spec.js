@@ -81,5 +81,32 @@ describe('APP', () => {
           expect(msg).to.equal('"email" is not allowed to be empty')
         );
     });
+    it('ERROR 400 - POST, if password is less than 6 charaters it responds with an error message', () => {
+      return request(app)
+        .post('/api/user/register')
+        .send({
+          name: 'JohnBET',
+          email: 'test@gmail.com',
+          password: 'pass'
+        })
+        .expect(400)
+        .then(({ body: { msg } }) =>
+          expect(msg).to.equal(
+            '"password" length must be at least 6 characters long'
+          )
+        );
+    });
+  });
+  describe('/user/login', () => {
+    it('POST status 200 - if email and password matches it responds OK', () => {
+      return request(app)
+        .post('/api/user/login')
+        .send({
+          email: 'test3@hotmail.com',
+          password: 'pass123'
+        })
+        .expect(200)
+        .then(token => console.log(token, 'SPEC'));
+    });
   });
 });

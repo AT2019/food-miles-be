@@ -39,23 +39,27 @@ exports.userLogin = async (req, res, next) => {
   // Data Validation
   const { error } = loginValidation(req.body);
   if (error) {
-    return res.status(400).send(error.details[0].message);
+    return res.status(400).send({ msg: error.details[0].message });
   }
   // Check If email exists
 
   const user = await User.findOne({ email: req.body.email });
+  console.log(user, 'user');
   if (!user) {
     return res.status(400).send("Email doesn't exist");
   }
   // Check password
-
   const validPassword = await bcrypt.compare(req.body.password, user.password);
   if (!validPassword) return res.status(400).send('Invalid password');
 
   // Create and assign a token
 
   const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
-  res.header('auth-token', token).send(token);
+  console.log(token);
+  res
+    .status(200)
+    .header('auth-token', token)
+    .send(token);
 };
 
 // verifyToken

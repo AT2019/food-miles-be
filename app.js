@@ -3,9 +3,9 @@ const app = express();
 const mongoose = require('mongoose');
 const apiRouter = require('./routes/apiRouter');
 const config = require('./config');
-// const dotenv = require('dotenv');
+const dotenv = require('dotenv');
 
-// dotenv.config();
+dotenv.config();
 mongoose.connect(config.url, { useNewUrlParser: true }, () => {
   console.log('connected to DB');
 });

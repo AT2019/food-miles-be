@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "nodemon app.js",
     "test": "mocha spec/app.spec.js"
   },
   "repository": {
@@ -18,18 +19,24 @@
   },
   "homepage": "https://github.com/AT2019/food-miles-be#readme",
   "dependencies": {
-    "chai": "^4.2.0",
+    "@hapi/joi": "^15.1.1",
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^8.1.0",
     "eslint-config-airbnb": "^18.0.1",
     "express": "^4.17.1",
-    "mocha": "^6.2.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.7.0",
     "node-tesseract-ocr": "^0.1.0",
-    "sharp": "^0.23.0",
-    "supertest": "^4.0.2"
+    "nodemon": "^1.19.2",
+    "sharp": "^0.23.0"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^2.1.0",
     "@typescript-eslint/parser": "^2.1.0",
+    "chai": "^4.2.0",
     "eslint": "^6.3.0",
-    "eslint-plugin-react": "^7.14.3"
+    "eslint-plugin-react": "^7.14.3",
+    "mocha": "^6.2.0",
+    "supertest": "^4.0.2"
   }
 }

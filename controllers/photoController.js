@@ -1,19 +1,13 @@
-// const fetchCountry = require("../models/photoModel.js");
 const readImage = require("../models/tesseractModel");
+const { findCountry } = require("../utils/utils");
 
 const selectCountryFromPhoto = (req, res, next) => {
-  console.log("<-- in controller");
   const body = req.body;
-  //   console.log(body, "<--body");
-  readImage(body).then(words => {
-    console.log(words);
-  });
-  //   fetchCountry()
-  //     .then(country => {
-  //       console.log(country);
-  //       res.status(200).send({ country });
-  //     })
-  //     .catch(err => console.log(err));
+  readImage(body)
+    .then(words => {
+      res.status(200).send({ country: findCountry([words]) });
+    })
+    .catch(err => console.log(err));
 };
 
 module.exports = selectCountryFromPhoto;

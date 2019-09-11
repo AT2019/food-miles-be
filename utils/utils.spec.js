@@ -43,7 +43,7 @@ describe("find country of origin from the label", () => {
     const input =
       "UK contact details: Aria Consumer Careline 0845 600 6688 www. lurpak.couk Arla Foods Ltd, 4 Savannah Way, Leeds Valley Park, Leeds, S10 1AB Produced in Denmark. Arla Foods amba, DK-8260 Viby J.";
     const actual = findCountry(input);
-    const expected = "Denmark.";
-    expect(actual).to.eql(expected);
+    const expected = "Denmark";
+    expect(actual).to.equal(expected);
   });
 });

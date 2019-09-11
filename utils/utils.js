@@ -15,6 +15,6 @@ exports.findCountry = str => {
     return outputArr[0];
   }
   const result = outputArr.filter(country => country !== "UK");
-
-  return result[0];
+  if (result[0].endsWith(".")) return result[0].slice(0, -1);
+  else return result[0];
 };

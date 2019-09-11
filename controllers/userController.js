@@ -1,7 +1,14 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/userModel');
-const { registerValidation, loginValidation } = require('../models/userModel');
+const {
+  registerValidation,
+  loginValidation,
+  selectUsers,
+  selectUserByEmail,
+  deleteUserByEmail,
+  patchUser
+} = require('../models/userModel');
 
 exports.userRegister = async (req, res, next) => {
   // Data Validation
@@ -78,4 +85,38 @@ exports.verifyToken = (req, res, next) => {
 
 exports.posts = (req, res, next) => {
   res.status(200).send(req.user);
+};
+
+// Get all users
+
+exports.getUsers = (req, res, next) => {
+  selectUsers()
+    .then(users => res.status(200).send({ users }))
+    .catch(err => console.log(err));
+};
+
+//Get user by email
+
+exports.getUserByEmail = (req, res, next) => {
+  selectUserByEmail(req.params)
+    .then(([user]) => {
+      res.status(200).send({ user });
+    })
+    .catch(err => res.status(err.status).send(err));
+};
+
+// Remove user from database
+
+exports.removeUserByEmail = (req, res, next) => {
+  deleteUserByEmail(req.params)
+    .then(() => res.sendStatus(204))
+    .catch(err => res.status(err.status).send(err));
+};
+
+// Update user
+
+exports.updateUser = (req, res, next) => {
+  patchUser(req.params, req.body)
+    .then(() => res.sendStatus(204))
+    .catch(err => res.status(err.status).send(err));
 };

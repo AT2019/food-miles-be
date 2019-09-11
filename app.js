@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const apiRouter = require('./routes/apiRouter');
-const config = require('./config');
+const config = require('./config/configuration');
 const dotenv = require('dotenv');
 
 dotenv.config();

@@ -60,12 +60,40 @@ const loginValidation = data => {
   return Joi.validate(data, schema);
 };
 
+const userDB = mongoose.model('User', userSchema);
+
 const selectUsers = () => {
-  const userDB = mongoose.model('User', userSchema);
   return userDB.find().then(users => users);
+};
+
+const selectUserByEmail = ({ email }) => {
+  return userDB.find({ email }).then(user => {
+    if (user.length === 0) {
+      return Promise.reject({ status: 404, msg: 'Email Not Found' });
+    } else return user;
+  });
+};
+
+const deleteUserByEmail = ({ email }) => {
+  return userDB.deleteOne({ email }).then(res => {
+    if (res.deletedCount === 0) {
+      return Promise.reject({ status: 404, msg: 'Email Not Found' });
+    }
+  });
+};
+
+const patchUser = ({ email }, data) => {
+  return userDB.updateOne({ email: email }, { name: data.name }).then(res => {
+    if (res.nModified === 0) {
+      return Promise.reject({ status: 404, msg: 'Email Not Found' });
+    } else return res;
+  });
 };
 
 module.exports = mongoose.model('User', userSchema);
 module.exports.registerValidation = registerValidation;
 module.exports.loginValidation = loginValidation;
 module.exports.selectUsers = selectUsers;
+module.exports.selectUserByEmail = selectUserByEmail;
+module.exports.deleteUserByEmail = deleteUserByEmail;
+module.exports.patchUser = patchUser;

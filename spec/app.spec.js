@@ -13,7 +13,7 @@ describe('APP', () => {
   //   after(() => {
   //     mongoose.connection.close();
   //   });
-  describe.only('/api', () => {
+  describe('/api', () => {
     it('ERROR status 404 when wrong path given', () => {
       return request(app)
         .get('/api/usr')
@@ -23,7 +23,7 @@ describe('APP', () => {
         });
     });
   });
-  describe.only('/api/user', () => {
+  describe('/api/user', () => {
     it('GET status 200 - it responds with an array of users', () => {
       return request(app)
         .get('/api/user')
@@ -32,7 +32,7 @@ describe('APP', () => {
           expect(users).to.be.an('Array');
         });
     });
-    it('GET status 200 - the user object has all the properties', () => {
+    it.only('GET status 200 - the user object has all the properties', () => {
       return request(app)
         .get('/api/user')
         .expect(200)
@@ -42,6 +42,72 @@ describe('APP', () => {
           expect(users.every(user => user.email)).to.be.true;
           expect(users.every(user => user.date)).to.be.true;
         });
+    });
+  });
+  describe('/api/user/:email', () => {
+    it('GET status 200 - it responds with an user object', () => {
+      return request(app)
+        .get('/api/user/test@gmail.com')
+        .expect(200)
+        .then(({ body: { user } }) => expect(user).to.be.an('object'));
+    });
+    it('GET status 200 - the user object has all the properties', () => {
+      return request(app)
+        .get('/api/user/test@gmail.com')
+        .expect(200)
+        .then(({ body: { user } }) => {
+          expect(user).to.include.keys('_id', 'password', 'date', 'email');
+        });
+    });
+    it('ERROR status 404 - if email doesn`t exist, it responds with 404 and an error message', () => {
+      return request(app)
+        .get('/api/user/test@gml.com')
+        .expect(404)
+        .then(({ body: { msg } }) => {
+          expect(msg).to.equal('Email Not Found');
+        });
+    });
+    it('DELETE status 204 - responds with 204 if success', () => {
+      return request(app)
+        .post('/api/user/register')
+        .send({
+          name: 'John TEST',
+          email: 'test@hotmail.com',
+          password: 'pass123'
+        })
+        .then(() => {
+          return request(app)
+            .delete('/api/user/test@hotmail.com')
+            .expect(204);
+        });
+    });
+    it('ERROR - DELETE status 404 - responds with 404 and an error message if no success', () => {
+      return request(app)
+        .delete('/api/user/t@hotmail.com')
+        .expect(404)
+        .then(({ body: { msg } }) => expect(msg).to.equal('Email Not Found'));
+    });
+    it('PATCH status 204 - responds with 204', () => {
+      return request(app)
+        .post('/api/user/register')
+        .send({
+          name: 'Paul TEST',
+          email: 'test1@hotmail.com',
+          password: 'pass123'
+        })
+        .then(() => {
+          return request(app)
+            .patch('/api/user/test1@hotmail.com')
+            .send({ name: 'Paul John Test' })
+            .expect(204);
+        });
+    });
+    it('ERROR - PATCH status 404 - responds with 404 and an error message', () => {
+      return request(app)
+        .patch('/api/user/testing1@hotmail.com')
+        .send({ name: 'Paul John Test' })
+        .expect(404)
+        .then(({ body: { msg } }) => expect(msg).to.equal('Email Not Found'));
     });
   });
   describe('/user/register', () => {

@@ -1,18 +1,12 @@
 const chai = require('chai');
-// const chaiSorted = require('chai-sorted');
 const { expect } = chai;
 const mongoose = require('mongoose');
-// chai.use(chaiSorted);
 const request = require('supertest');
 const { app } = require('../app');
 const { photo } = require('../photos/base64pic.js');
 
 describe('APP', () => {
-  //   console.log(mongoose.connection, 'MONGOOSE');
   // beforeEach(() => mongoose.connection.db.dropDatabase());
-  //   after(() => {
-  //     mongoose.connection.close();
-  //   });
   describe('/api', () => {
     it('ERROR status 404 when wrong path given', () => {
       return request(app)
@@ -32,7 +26,7 @@ describe('APP', () => {
           expect(users).to.be.an('Array');
         });
     });
-    it.only('GET status 200 - the user object has all the properties', () => {
+    it('GET status 200 - the user object has all the properties', () => {
       return request(app)
         .get('/api/user')
         .expect(200)

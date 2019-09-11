@@ -21,6 +21,9 @@ const userSchema = new mongoose.Schema({
     min: 6,
     max: 1024
   },
+  avatar: {
+    type: String
+  },
   date: {
     type: Date,
     default: Date.now
@@ -57,6 +60,12 @@ const loginValidation = data => {
   return Joi.validate(data, schema);
 };
 
+const selectUsers = () => {
+  const userDB = mongoose.model('User', userSchema);
+  return userDB.find().then(users => users);
+};
+
 module.exports = mongoose.model('User', userSchema);
 module.exports.registerValidation = registerValidation;
 module.exports.loginValidation = loginValidation;
+module.exports.selectUsers = selectUsers;

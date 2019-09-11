@@ -5,15 +5,45 @@ const mongoose = require('mongoose');
 // chai.use(chaiSorted);
 const request = require('supertest');
 const { app } = require('../app');
-const { photo } = require("../photos/base64pic.js");
+const { photo } = require('../photos/base64pic.js');
 
 describe('APP', () => {
   //   console.log(mongoose.connection, 'MONGOOSE');
-  beforeEach(() => mongoose.connection.db.dropDatabase());
+  // beforeEach(() => mongoose.connection.db.dropDatabase());
   //   after(() => {
   //     mongoose.connection.close();
   //   });
-  describe('/api', () => {});
+  describe.only('/api', () => {
+    it('ERROR status 404 when wrong path given', () => {
+      return request(app)
+        .get('/api/usr')
+        .expect(404)
+        .then(({ body }) => {
+          expect(body.msg).to.equal('Page not found');
+        });
+    });
+  });
+  describe.only('/api/user', () => {
+    it('GET status 200 - it responds with an array of users', () => {
+      return request(app)
+        .get('/api/user')
+        .expect(200)
+        .then(({ body: { users } }) => {
+          expect(users).to.be.an('Array');
+        });
+    });
+    it('GET status 200 - the user object has all the properties', () => {
+      return request(app)
+        .get('/api/user')
+        .expect(200)
+        .then(({ body: { users } }) => {
+          expect(users.every(user => user._id)).to.be.true;
+          expect(users.every(user => user.password)).to.be.true;
+          expect(users.every(user => user.email)).to.be.true;
+          expect(users.every(user => user.date)).to.be.true;
+        });
+    });
+  });
   describe('/user/register', () => {
     it('POST status 201, responds with an object', () => {
       return request(app)
@@ -232,14 +262,14 @@ describe('APP', () => {
         });
     });
   });
-  describe("/photo", () => {
-    it("establishes the test connection", () => {
+  describe('/photo', () => {
+    it('establishes the test connection', () => {
       return request(app)
-        .get("/api/photo")
+        .get('/api/photo')
         .send({ photo })
         .expect(200)
         .then(({ body }) => {
-          console.log(body, "<-- in app spec");
+          console.log(body, '<-- in app spec');
         });
     });
   });

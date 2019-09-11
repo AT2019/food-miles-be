@@ -1,7 +1,11 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/userModel');
-const { registerValidation, loginValidation } = require('../models/userModel');
+const {
+  registerValidation,
+  loginValidation,
+  selectUsers
+} = require('../models/userModel');
 
 exports.userRegister = async (req, res, next) => {
   // Data Validation
@@ -78,4 +82,12 @@ exports.verifyToken = (req, res, next) => {
 
 exports.posts = (req, res, next) => {
   res.status(200).send(req.user);
+};
+
+// Get all users
+
+exports.getUsers = (req, res, next) => {
+  selectUsers()
+    .then(users => res.status(200).send({ users }))
+    .catch(err => console.log(err));
 };

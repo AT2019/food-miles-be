@@ -6,6 +6,7 @@
   "scripts": {
     "start": "nodemon app.js",
     "test": "mocha spec/app.spec.js",
+    "test-c": "mocha spec/countries.spec.js",
     "test-utils": "mocha utils/utils.spec.js",
     "test-backend": "mocha spec/backend.spec.js"
   },

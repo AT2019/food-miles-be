@@ -15,4 +15,8 @@ app.use('/api', apiRouter);
 
 app.listen(3003, () => console.log('Server is listening...'));
 
+app.all("/*", (req, res) => {
+  res.status(404).send({ msg: "Page not found" });
+});
+
 module.exports = { app };

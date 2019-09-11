@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 // chai.use(chaiSorted);
 const request = require('supertest');
 const { app } = require('../app');
+const { photo } = require("../photos/base64pic.js");
 
 describe('APP', () => {
   //   console.log(mongoose.connection, 'MONGOOSE');
@@ -228,6 +229,17 @@ describe('APP', () => {
                   expect(msg).to.equal('Access Denied')
                 );
             });
+        });
+    });
+  });
+  describe("/photo", () => {
+    it("establishes the test connection", () => {
+      return request(app)
+        .get("/api/photo")
+        .send({ photo })
+        .expect(200)
+        .then(({ body }) => {
+          console.log(body, "<-- in app spec");
         });
     });
   });

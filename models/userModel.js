@@ -83,7 +83,8 @@ const deleteUserByEmail = ({ email }) => {
 };
 
 const patchUser = ({ email }, data) => {
-  return userDB.updateOne({ email: email }, { name: data.name }).then(res => {
+  console.log(data);
+  return userDB.updateOne({ email: email }, data).then(res => {
     if (res.nModified === 0) {
       return Promise.reject({ status: 404, msg: 'Email Not Found' });
     } else return res;

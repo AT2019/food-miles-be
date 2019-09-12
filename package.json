@@ -6,6 +6,7 @@
   "scripts": {
     "start": "nodemon app.js",
     "test": "export NODE_ENV=test; mocha --exit spec/app.spec.js",
+    "test-c": "mocha spec/countries.spec.js",
     "test-utils": "export NODE_ENV=test; mocha --exit utils/utils.spec.js",
     "test-backend": "export NODE_ENV=test; mocha --exit spec/backend.spec.js"
   },

@@ -1,35 +1,34 @@
-const chai = require("chai");
+const chai = require('chai');
 const { expect } = chai;
-const mongoose = require("mongoose");
-const request = require("supertest");
-const { app } = require("../app");
-const { photo } = require("../photos/base64pic.js");
+const mongoose = require('mongoose');
+const request = require('supertest');
+const { app } = require('../app');
+const { photo } = require('../photos/base64pic.js');
 
-
-describe("APP", () => {
+describe('APP', () => {
   // beforeEach(() => mongoose.connection.db.dropDatabase());
-  describe("/api", () => {
-    it("ERROR status 404 when wrong path given", () => {
+  describe('/api', () => {
+    it('ERROR status 404 when wrong path given', () => {
       return request(app)
-        .get("/api/usr")
+        .get('/api/usr')
         .expect(404)
         .then(({ body }) => {
-          expect(body.msg).to.equal("Page not found");
+          expect(body.msg).to.equal('Page not found');
         });
     });
   });
-  describe("/api/user", () => {
-    it("GET status 200 - it responds with an array of users", () => {
+  describe('/api/user', () => {
+    it('GET status 200 - it responds with an array of users', () => {
       return request(app)
-        .get("/api/user")
+        .get('/api/user')
         .expect(200)
         .then(({ body: { users } }) => {
-          expect(users).to.be.an("Array");
+          expect(users).to.be.an('Array');
         });
     });
-    it("GET status 200 - the user object has all the properties", () => {
+    it('GET status 200 - the user object has all the properties', () => {
       return request(app)
-        .get("/api/user")
+        .get('/api/user')
         .expect(200)
         .then(({ body: { users } }) => {
           expect(users.every(user => user._id)).to.be.true;
@@ -39,93 +38,93 @@ describe("APP", () => {
         });
     });
   });
-  describe("/api/user/:email", () => {
-    it("GET status 200 - it responds with an user object", () => {
+  describe('/api/user/:email', () => {
+    it('GET status 200 - it responds with an user object', () => {
       return request(app)
-        .get("/api/user/test@gmail.com")
+        .get('/api/user/test@gmail.com')
         .expect(200)
-        .then(({ body: { user } }) => expect(user).to.be.an("object"));
+        .then(({ body: { user } }) => expect(user).to.be.an('object'));
     });
-    it("GET status 200 - the user object has all the properties", () => {
+    it('GET status 200 - the user object has all the properties', () => {
       return request(app)
-        .get("/api/user/test@gmail.com")
+        .get('/api/user/test@gmail.com')
         .expect(200)
         .then(({ body: { user } }) => {
-          expect(user).to.include.keys("_id", "password", "date", "email");
+          expect(user).to.include.keys('_id', 'password', 'date', 'email');
         });
     });
-    it("ERROR status 404 - if email doesn`t exist, it responds with 404 and an error message", () => {
+    it('ERROR status 404 - if email doesn`t exist, it responds with 404 and an error message', () => {
       return request(app)
-        .get("/api/user/test@gml.com")
+        .get('/api/user/test@gml.com')
         .expect(404)
         .then(({ body: { msg } }) => {
-          expect(msg).to.equal("Email Not Found");
+          expect(msg).to.equal('Email Not Found');
         });
     });
-    it("DELETE status 204 - responds with 204 if success", () => {
+    it('DELETE status 204 - responds with 204 if success', () => {
       return request(app)
-        .post("/api/user/register")
+        .post('/api/user/register')
         .send({
-          name: "John TEST",
-          email: "test@hotmail.com",
-          password: "pass123"
+          name: 'John TEST',
+          email: 'test@hotmail.com',
+          password: 'pass123'
         })
         .then(() => {
           return request(app)
-            .delete("/api/user/test@hotmail.com")
+            .delete('/api/user/test@hotmail.com')
             .expect(204);
         });
     });
-    it("ERROR - DELETE status 404 - responds with 404 and an error message if no success", () => {
+    it('ERROR - DELETE status 404 - responds with 404 and an error message if no success', () => {
       return request(app)
-        .delete("/api/user/t@hotmail.com")
+        .delete('/api/user/t@hotmail.com')
         .expect(404)
-        .then(({ body: { msg } }) => expect(msg).to.equal("Email Not Found"));
+        .then(({ body: { msg } }) => expect(msg).to.equal('Email Not Found'));
     });
-    it("PATCH status 204 - responds with 204", () => {
+    it.only('PATCH status 204 - responds with 204', () => {
       return request(app)
-        .post("/api/user/register")
+        .post('/api/user/register')
         .send({
-          name: "Paul TEST",
-          email: "test1@hotmail.com",
-          password: "pass123"
+          name: 'Paul John TEST',
+          email: 'test1@hotmail.com',
+          password: 'pass123'
         })
         .then(() => {
           return request(app)
-            .patch("/api/user/test1@hotmail.com")
-            .send({ name: "Paul John Test" })
+            .patch('/api/user/test1@hotmail.com')
+            .send({ password: 'newpass123' })
             .expect(204);
         });
     });
-    it("ERROR - PATCH status 404 - responds with 404 and an error message", () => {
+    it('ERROR - PATCH status 404 - responds with 404 and an error message', () => {
       return request(app)
-        .patch("/api/user/testing1@hotmail.com")
-        .send({ name: "Paul John Test" })
+        .patch('/api/user/testing1@hotmail.com')
+        .send({ name: 'Paul John Test' })
         .expect(404)
-        .then(({ body: { msg } }) => expect(msg).to.equal("Email Not Found"));
+        .then(({ body: { msg } }) => expect(msg).to.equal('Email Not Found'));
     });
   });
-  describe("/user/register", () => {
-    it("POST status 201, responds with an object", () => {
+  describe('/user/register', () => {
+    it('POST status 201, responds with an object', () => {
       return request(app)
-        .post("/api/user/register")
+        .post('/api/user/register')
         .send({
-          name: "John BEST",
-          email: "test3@hotmail.com",
-          password: "pass123"
+          name: 'John BEST',
+          email: 'test3@hotmail.com',
+          password: 'pass123'
         })
         .expect(201)
         .then(({ body: { savedUser } }) =>
-          expect(savedUser).to.include.keys("name", "email", "password")
+          expect(savedUser).to.include.keys('name', 'email', 'password')
         );
     });
-    it("ERROR 400 - POST, if username is less than 6 characters it responds with an error message", () => {
+    it('ERROR 400 - POST, if username is less than 6 characters it responds with an error message', () => {
       return request(app)
-        .post("/api/user/register")
+        .post('/api/user/register')
         .send({
-          name: "John",
-          email: "test3@hotmail.com",
-          password: "pass123"
+          name: 'John',
+          email: 'test3@hotmail.com',
+          password: 'pass123'
         })
         .expect(400)
         .then(({ body: { msg } }) =>
@@ -134,52 +133,52 @@ describe("APP", () => {
           )
         );
     });
-    it("ERROR 400 - POST, if username is empty it responds with an error message", () => {
+    it('ERROR 400 - POST, if username is empty it responds with an error message', () => {
       return request(app)
-        .post("/api/user/register")
+        .post('/api/user/register')
         .send({
-          name: "",
-          email: "test3@hotmail.com",
-          password: "pass123"
+          name: '',
+          email: 'test3@hotmail.com',
+          password: 'pass123'
         })
         .expect(400)
         .then(({ body: { msg } }) =>
           expect(msg).to.equal('"name" is not allowed to be empty')
         );
     });
-    it("ERROR 400 - POST, if email is invalid it responds with an error message", () => {
+    it('ERROR 400 - POST, if email is invalid it responds with an error message', () => {
       return request(app)
-        .post("/api/user/register")
+        .post('/api/user/register')
         .send({
-          name: "JohnBET",
-          email: "test3hotmail.com",
-          password: "pass123"
+          name: 'JohnBET',
+          email: 'test3hotmail.com',
+          password: 'pass123'
         })
         .expect(400)
         .then(({ body: { msg } }) =>
           expect(msg).to.equal('"email" must be a valid email')
         );
     });
-    it("ERROR 400 - POST, if email is empty it responds with an error message", () => {
+    it('ERROR 400 - POST, if email is empty it responds with an error message', () => {
       return request(app)
-        .post("/api/user/register")
+        .post('/api/user/register')
         .send({
-          name: "JohnBET",
-          email: "",
-          password: "pass123"
+          name: 'JohnBET',
+          email: '',
+          password: 'pass123'
         })
         .expect(400)
         .then(({ body: { msg } }) =>
           expect(msg).to.equal('"email" is not allowed to be empty')
         );
     });
-    it("ERROR 400 - POST, if password is less than 6 charaters it responds with an error message", () => {
+    it('ERROR 400 - POST, if password is less than 6 charaters it responds with an error message', () => {
       return request(app)
-        .post("/api/user/register")
+        .post('/api/user/register')
         .send({
-          name: "JohnBET",
-          email: "test@gmail.com",
-          password: "pass"
+          name: 'JohnBET',
+          email: 'test@gmail.com',
+          password: 'pass'
         })
         .expect(400)
         .then(({ body: { msg } }) =>
@@ -189,135 +188,135 @@ describe("APP", () => {
         );
     });
   });
-  describe("/user/login", () => {
-    it("POST status 200 - if email and password matches it responds OK", () => {
+  describe('/user/login', () => {
+    it('POST status 200 - if email and password matches it responds OK', () => {
       return request(app)
-        .post("/api/user/register")
+        .post('/api/user/register')
         .send({
-          name: "John BEST",
-          email: "test3@hotmail.com",
-          password: "pass123"
+          name: 'John BEST',
+          email: 'test3@hotmail.com',
+          password: 'pass123'
         })
         .then(() => {
           return request(app)
-            .post("/api/user/login")
+            .post('/api/user/login')
             .send({
-              email: "test3@hotmail.com",
-              password: "pass123"
+              email: 'test3@hotmail.com',
+              password: 'pass123'
             })
-            .then(token => expect(token.headers).to.include.keys("auth-token"));
+            .then(token => expect(token.headers).to.include.keys('auth-token'));
         });
     });
-    it("ERROR status 400 - if email is invalid,it responds with an error message", () => {
+    it('ERROR status 400 - if email is invalid,it responds with an error message', () => {
       return request(app)
-        .post("/api/user/register")
+        .post('/api/user/register')
         .send({
-          name: "John BEST",
-          email: "test3@hotmail.com",
-          password: "pass123"
+          name: 'John BEST',
+          email: 'test3@hotmail.com',
+          password: 'pass123'
         })
         .then(() => {
           return request(app)
-            .post("/api/user/login")
+            .post('/api/user/login')
             .send({
-              email: "test3hotmail.com",
-              password: "pass123"
+              email: 'test3hotmail.com',
+              password: 'pass123'
             })
             .then(({ body: { msg } }) =>
               expect(msg).to.equal('"email" must be a valid email')
             );
         });
     });
-    it("ERROR status 400 - if email doesn`t match,it responds with an error message", () => {
+    it('ERROR status 400 - if email doesn`t match,it responds with an error message', () => {
       return request(app)
-        .post("/api/user/register")
+        .post('/api/user/register')
         .send({
-          name: "John BEST",
-          email: "test3@hotmail.com",
-          password: "pass123"
+          name: 'John BEST',
+          email: 'test3@hotmail.com',
+          password: 'pass123'
         })
         .then(() => {
           return request(app)
-            .post("/api/user/login")
+            .post('/api/user/login')
             .send({
-              email: "test@hotmail.com",
-              password: "pass123"
+              email: 'test@hotmail.com',
+              password: 'pass123'
             })
             .then(({ body: { msg } }) =>
               expect(msg).to.equal("Email doesn't exist")
             );
         });
     });
-    it("ERROR status 400 - if password doesn`t match,it responds with an error message", () => {
+    it('ERROR status 400 - if password doesn`t match,it responds with an error message', () => {
       return request(app)
-        .post("/api/user/register")
+        .post('/api/user/register')
         .send({
-          name: "John BEST",
-          email: "test3@hotmail.com",
-          password: "pass123"
+          name: 'John BEST',
+          email: 'test3@hotmail.com',
+          password: 'pass123'
         })
         .then(() => {
           return request(app)
-            .post("/api/user/login")
+            .post('/api/user/login')
             .send({
-              email: "test3@hotmail.com",
-              password: "passs123"
+              email: 'test3@hotmail.com',
+              password: 'passs123'
             })
             .then(({ body: { msg } }) =>
-              expect(msg).to.equal("Invalid password")
+              expect(msg).to.equal('Invalid password')
             );
         });
     });
   });
-  describe("/posts", () => {
-    it("GET status 200 - if successfully logged in, it responds with 200 and auth-key is available on header", () => {
+  describe('/posts', () => {
+    it('GET status 200 - if successfully logged in, it responds with 200 and auth-key is available on header', () => {
       return request(app)
-        .post("/api/user/register")
+        .post('/api/user/register')
         .send({
-          name: "John BEST",
-          email: "test3@hotmail.com",
-          password: "pass123"
+          name: 'John BEST',
+          email: 'test3@hotmail.com',
+          password: 'pass123'
         })
         .then(() => {
           return request(app)
-            .post("/api/user/login")
+            .post('/api/user/login')
             .send({
-              email: "test3@hotmail.com",
-              password: "pass123"
+              email: 'test3@hotmail.com',
+              password: 'pass123'
             })
             .then(() => {
               return request(app)
-                .get("/api/posts")
+                .get('/api/posts')
                 .set(
-                  "auth-token",
-                  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZDc3YjBhMzJiMTBiYjU5MmNlZTM3YzQiLCJpYXQiOjE1NjgxMjUxMDV9.Zz3EvfFpiSM4VsRM1MToUPHATtvuu3jPDWvbpOArNQI"
+                  'auth-token',
+                  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZDc3YjBhMzJiMTBiYjU5MmNlZTM3YzQiLCJpYXQiOjE1NjgxMjUxMDV9.Zz3EvfFpiSM4VsRM1MToUPHATtvuu3jPDWvbpOArNQI'
                 )
                 .expect(200);
               // .then(body => expect(body.text).to.include.keys('_id'));
             });
         });
     });
-    it("GET status 200 - if not logged in, it responds with 401 and an error message", () => {
+    it('GET status 200 - if not logged in, it responds with 401 and an error message', () => {
       return request(app)
-        .post("/api/user/register")
+        .post('/api/user/register')
         .send({
-          name: "John BEST",
-          email: "test3@hotmail.com",
-          password: "pass123"
+          name: 'John BEST',
+          email: 'test3@hotmail.com',
+          password: 'pass123'
         })
         .then(() => {
           return request(app)
-            .post("/api/user/login")
+            .post('/api/user/login')
             .send({
-              email: "test3@hotmail.com",
-              password: "pass123"
+              email: 'test3@hotmail.com',
+              password: 'pass123'
             })
             .then(() => {
               return request(app)
-                .get("/api/posts")
+                .get('/api/posts')
                 .expect(401)
                 .then(({ body: { msg } }) =>
-                  expect(msg).to.equal("Access Denied")
+                  expect(msg).to.equal('Access Denied')
                 );
             });
         });

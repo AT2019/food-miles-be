@@ -12,6 +12,7 @@ exports.findCountry = str => {
     "Italy",
     "Italy.",
     "Morocco",
+    "MOROCCO",
     "Morocco.",
     "New Zealand",
     "New Zealand.",
@@ -28,7 +29,7 @@ exports.findCountry = str => {
   const outputArr = [];
   for (let j = 0; j < strArr.length; j++) {
     for (let i = 0; i < countries.length; i++) {
-      if (strArr[j] === countries[i]) {
+      if (strArr[j].includes(countries[i])) {
         outputArr.push(countries[i]);
       }
     }

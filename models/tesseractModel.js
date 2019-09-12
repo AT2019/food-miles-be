@@ -10,7 +10,6 @@ const readImage = ({ photo }) => {
   return tesseract
     .recognize(photo, config)
     .then(text => {
-      console.log(text, "<-- in model");
       return text;
     })
     .catch(err => {

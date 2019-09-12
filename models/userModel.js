@@ -63,7 +63,10 @@ const loginValidation = data => {
 const userDB = mongoose.model('User', userSchema);
 
 const selectUsers = () => {
-  return userDB.find().then(users => users);
+  return userDB.find().then(users => {
+    console.log(users)
+    return users
+  });
 };
 
 const selectUserByEmail = ({ email }) => {
@@ -83,7 +86,6 @@ const deleteUserByEmail = ({ email }) => {
 };
 
 const patchUser = ({ email }, data) => {
-  console.log(data);
   return userDB.updateOne({ email: email }, data).then(res => {
     if (res.nModified === 0) {
       return Promise.reject({ status: 404, msg: 'Email Not Found' });

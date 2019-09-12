@@ -5,7 +5,7 @@ const request = require('supertest');
 const { app } = require('../app');
 const { photo } = require('../photos/base64pic.js');
 
-describe('APP', () => {
+describe('Users', () => {
   // beforeEach(() => mongoose.connection.db.dropDatabase());
   describe('/api', () => {
     it('ERROR status 404 when wrong path given', () => {
@@ -81,7 +81,7 @@ describe('APP', () => {
         .expect(404)
         .then(({ body: { msg } }) => expect(msg).to.equal('Email Not Found'));
     });
-    it.only('PATCH status 204 - responds with 204', () => {
+    it("PATCH status 204 - responds with 204", () => {
       return request(app)
         .post('/api/user/register')
         .send({
@@ -99,7 +99,7 @@ describe('APP', () => {
     it('ERROR - PATCH status 404 - responds with 404 and an error message', () => {
       return request(app)
         .patch('/api/user/testing1@hotmail.com')
-        .send({ name: 'Paul John Test' })
+        .send({ name: 'Paul John Test', password: '23' })
         .expect(404)
         .then(({ body: { msg } }) => expect(msg).to.equal('Email Not Found'));
     });

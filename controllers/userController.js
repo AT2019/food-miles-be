@@ -115,8 +115,13 @@ exports.removeUserByEmail = (req, res, next) => {
 
 // Update user
 
-exports.updateUser = (req, res, next) => {
-  patchUser(req.params, req.body)
+exports.updateUser = async (req, res, next) => {
+  // Hash Passwords
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = {
+    password: await bcrypt.hash(req.body.password, salt)
+  };
+  await patchUser(req.params, hashedPassword ? hashedPassword : req.body)
     .then(() => res.sendStatus(204))
     .catch(err => res.status(err.status).send(err));
 };

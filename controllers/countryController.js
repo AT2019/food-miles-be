@@ -1,8 +1,16 @@
-const { fetchCountries } = require('../models/countryModel');
+const { fetchCountries, fetchCountryById } = require('../models/countryModel');
 const Countries = require('../models/countryModel');
 
 exports.getCountries = (req, res, next) => {
   fetchCountries().then(countries => res.status(200).send({ countries }));
+};
+
+//Get country by id
+
+exports.getCountryById = (req, res, next) => {
+  fetchCountryById(req.params)
+    .then(country => res.status(200).send({ country }))
+    .catch(err => res.status(err.status).send(err));
 };
 
 //ADD country

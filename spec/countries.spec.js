@@ -46,4 +46,31 @@ describe('app', () => {
         );
     });
   });
+  describe.only('/api/countries/:countryID', () => {
+    it('GET status 200 - it responds with a single country object that has all keys', () => {
+      return request(app)
+        .get('/api/countries/Scotland')
+        .expect(200)
+        .then(({ body: { country } }) => {
+          expect(country).to.be.an('object');
+          expect(country).to.include.keys(
+            '_id',
+            'capital',
+            'distance',
+            'latitude',
+            'longitude'
+          );
+        });
+    });
+    it('GET status 200 - it can handle differently formatted countries', () => {
+      return request(app)
+        .get('/api/countries/scotland')
+        .expect(200);
+    });
+    it('GET status 200 - it can handle differently formatted countries', () => {
+      return request(app)
+        .get('/api/countries/south aFRicA')
+        .expect(200);
+    });
+  });
 });

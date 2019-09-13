@@ -1,6 +1,5 @@
 const chai = require('chai');
 const { expect } = chai;
-const mongoose = require('mongoose');
 const request = require('supertest');
 const { app } = require('../app');
 
@@ -46,7 +45,7 @@ describe('app', () => {
         );
     });
   });
-  describe.only('/api/countries/:countryID', () => {
+  describe('/api/countries/:countryID', () => {
     it('GET status 200 - it responds with a single country object that has all keys', () => {
       return request(app)
         .get('/api/countries/Scotland')

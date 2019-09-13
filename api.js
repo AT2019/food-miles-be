@@ -1,5 +1,5 @@
 // const axios = require("axios");
-const db = require("./config");
+const db = require("./config/configuration");
 
 exports.getCountryData = country => {
   return {

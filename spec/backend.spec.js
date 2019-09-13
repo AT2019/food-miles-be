@@ -2,10 +2,10 @@ const { expect } = require("chai");
 const request = require("supertest");
 const { app } = require("../app");
 // const photo = "photos/tomatoes.jpg";
-const photo = "photos/orangejuice.jpg";
+const photo = "photos/blueberries.jpg";
 
 describe("/photo", () => {
-  it("establishes the test connection", () => {
+  it.only("establishes the test connection", () => {
     return request(app)
       .get("/api/photo")
       .send({ photo })

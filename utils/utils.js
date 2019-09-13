@@ -20,6 +20,7 @@ exports.findCountry = str => {
     "South Africa.",
     "Scotland",
     "Scotland.",
+    "Poland",
     "Wales",
     "Wales.",
     "Spain",

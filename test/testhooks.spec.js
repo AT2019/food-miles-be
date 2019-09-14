@@ -1,13 +1,16 @@
 const mongoose = require('mongoose');
 
+const { app } = require('../app');
 const User = require('../models/userModel');
 const Country = require('../models/countryModel')
 
 beforeEach((done) => {
+  console.log('beforeEach start')
   const dropCountries = Country.deleteMany({});
   const dropUsers = User.deleteMany({});
   Promise.all([dropCountries, dropUsers])
     .then(() => {
+      console.log('beforeEach cleared data')
       const addUser = new User({
         name: 'John Doe',
         email: 'test@gmail.com',
@@ -32,6 +35,7 @@ beforeEach((done) => {
         .save();
       Promise.all([addUser, addScotland, addSouthAfrica])
         .then(() => {
+          console.log('beforeEach added data')
           done()
         });
     });

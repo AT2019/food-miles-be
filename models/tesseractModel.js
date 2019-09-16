@@ -8,7 +8,7 @@ const config = {
 };
 
 const readImage = ({ photo }) => {
-  var img = new Buffer(photo, 'base64');
+  const img = new Buffer(photo, 'base64');
   return sharp(img)
     .resize(700, 450)
     .greyscale()

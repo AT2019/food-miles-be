@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+const { app } = require('../app');
 const User = require('../models/userModel');
 const Country = require('../models/countryModel')
 

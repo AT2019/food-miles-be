@@ -8,14 +8,15 @@ const config = {
 };
 
 const readImage = ({ photo }) => {
+  const filename = "out.png"; // replace with random filename to support multi user
   const img = new Buffer(photo, 'base64');
   return sharp(img)
     .resize(700, 450)
     .greyscale()
     .sharpen(2)
-    .toFile("out2.png").then(() => {
+    .toFile(filename).then(() => {
       return tesseract
-        .recognize("out2.png", config)
+        .recognize(filename, config)
         .then(text => {
           console.log(text, "<-- in model");
           return text;

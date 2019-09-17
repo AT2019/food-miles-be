@@ -8,7 +8,8 @@
     "test": "export NODE_ENV=test; mocha --exit spec",
     "test-c": "export NODE_ENV=test; mocha --exit spec/countries.spec.js",
     "test-utils": "export NODE_ENV=test; mocha --exit utils/utils.spec.js",
-    "test-backend": "export NODE_ENV=test; mocha --exit spec/backend.spec.js"
+    "test-backend": "export NODE_ENV=test; mocha --exit spec/backend.spec.js",
+    "test-shopping": "export NODE_ENV=test; mocha --exit spec/shopping.spec.js"
   },
   "repository": {
     "type": "git",

@@ -64,8 +64,7 @@ const userDB = mongoose.model('User', userSchema);
 
 const selectUsers = () => {
   return userDB.find().then(users => {
-    console.log(users)
-    return users
+    return users;
   });
 };
 

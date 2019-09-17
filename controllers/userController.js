@@ -15,7 +15,6 @@ exports.userRegister = async (req, res, next) => {
 
   const { error } = registerValidation(req.body);
   if (error) {
-    // console.log(error);
     return res.status(400).send({ msg: error.details[0].message });
   }
   // Check If email already exists
@@ -32,7 +31,8 @@ exports.userRegister = async (req, res, next) => {
   const user = new User({
     name: req.body.name,
     email: req.body.email,
-    password: hashedPassword
+    password: hashedPassword,
+    avatar: req.body.avatar
   });
   try {
     const savedUser = await user.save();

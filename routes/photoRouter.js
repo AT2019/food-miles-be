@@ -1,6 +1,6 @@
 const photoRouter = require("express").Router();
 const selectCountryFromPhoto = require("../controllers/photoController.js");
 
-photoRouter.route("/").get(selectCountryFromPhoto);
+photoRouter.route("/").post(selectCountryFromPhoto);
 
 module.exports = photoRouter;

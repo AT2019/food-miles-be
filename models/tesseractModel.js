@@ -9,7 +9,7 @@ const config = {
 
 const readImage = ({ photo }) => {
   const filename = "out.png"; // replace with random filename to support multi user
-  const img = new Buffer(photo, 'base64');
+  const img = new Buffer(photo.base64, 'base64');
   return sharp(img)
     .resize(700, 450)
     .greyscale()

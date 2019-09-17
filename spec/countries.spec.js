@@ -23,7 +23,7 @@ describe('app', () => {
           expect(countries.every(country => country.longitude)).to.be.true;
         });
     });
-    it('POST status 201 - it responds with an array of country objects', () => {
+    it('POST status 201 - it responds with a country object', () => {
       return request(app)
         .post('/api/countries')
         .send({

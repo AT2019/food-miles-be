@@ -1,4 +1,6 @@
-const tesseract = require("node-tesseract-ocr");
+//const tesseract = require("node-tesseract-ocr");
+const { TesseractWorker } = require("tesseract.js");
+const worker = new TesseractWorker();
 const sharp = require('sharp');
 
 const config = {
@@ -8,16 +10,17 @@ const config = {
 };
 
 const readImage = ({ photo }) => {
-  const filename = "out.png"; // replace with random filename to support multi user
+  //const filename = "out.png"; // replace with random filename to support multi user
   const img = new Buffer(photo.base64, 'base64');
   return sharp(img)
     .resize(700, 450)
     .greyscale()
     .sharpen(2)
-    .toFile(filename).then(() => {
-      return tesseract
-        .recognize(filename, config)
-        .then(text => {
+    .toBuffer()
+    .then((data) => {
+      return worker
+        .recognize(data)//, config)
+        .then(({ text }) => {
           console.log(text, "<-- in model");
           return text;
         })

@@ -13,7 +13,7 @@ describe('app', () => {
           expect(body.shoppings).to.be.an('array');
         });
     });
-    it('GET status 200 - it responds with a prev shopping list object', () => {
+    it.only('GET status 200 - it responds with a prev shopping list object', () => {
       return request(app)
         .post('/api/prevShopping')
         .send({
@@ -23,13 +23,15 @@ describe('app', () => {
               food_category: 'chilled',
               latitude: 16.0,
               longitude: 33,
-              distance: 4390
+              distance: 4390,
+              country: 'China'
             },
             {
               food_category: 'meat',
               latitude: 16.0,
               longitude: 33,
-              distance: 4190
+              distance: 4190,
+              country: 'South Africa'
             }
           ]
         })
@@ -56,13 +58,15 @@ describe('app', () => {
               food_category: 'frozen',
               latitude: 16.0,
               longitude: 33,
-              distance: 1390
+              distance: 1390,
+              country: 'China'
             },
             {
               food_category: 'meat',
               latitude: 16.0,
               longitude: 33,
-              distance: 1190
+              distance: 1190,
+              country: 'Spain'
             }
           ]
         })
@@ -85,13 +89,15 @@ describe('app', () => {
               food_category: 'chilled',
               latitude: 16.0,
               longitude: 33,
-              distance: 4390
+              distance: 4390,
+              country: 'China'
             },
             {
               food_category: 'meat',
               latitude: 16.0,
               longitude: 33,
-              distance: 4190
+              distance: 4190,
+              country: 'Spain'
             }
           ]
         })
@@ -108,13 +114,15 @@ describe('app', () => {
               food_category: 'chilled',
               latitude: 16.0,
               longitude: 33,
-              distance: 4390
+              distance: 4390,
+              country: 'China'
             },
             {
               food_category: 'meat',
               latitude: 16.0,
               longitude: 33,
-              distance: 4190
+              distance: 4190,
+              country: 'Italy'
             }
           ]
         })

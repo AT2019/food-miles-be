@@ -19,6 +19,7 @@ const shoppingSchema = new Schema({
       food_category: {
         type: String
       },
+      country: { type: String },
       latitude: { type: Number },
       longitude: { type: Number },
       distance: { type: Number }

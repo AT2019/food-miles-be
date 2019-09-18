@@ -4,7 +4,6 @@ exports.getPrevShopping = (req, res, next) => {
   Shopping.find(req.query)
     .sort({ date: -1 })
     .then(shoppings => {
-      console.log(shoppings, 'CTRL');
       res.status(200).send({ shoppings });
     });
 };

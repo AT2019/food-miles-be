@@ -37,13 +37,15 @@ beforeEach(done => {
           food_category: 'chilled',
           latitude: 16.0,
           longitude: 33,
-          distance: 4390
+          distance: 4390,
+          country: 'Spain'
         },
         {
           food_category: 'meat',
           latitude: 16.0,
           longitude: 33,
-          distance: 4190
+          distance: 4190,
+          country: 'Italy'
         }
       ]
     });

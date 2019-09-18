@@ -1,6 +1,6 @@
 const readImage = require("../models/tesseractModel");
 const { findCountry } = require("../utils/utils");
-const { getCountryData } = require("../api");
+const { fetchCountryById } = require("../models/countryModel")
 
 const selectCountryFromPhoto = (req, res, next) => {
   const body = req.body;
@@ -11,7 +11,15 @@ const selectCountryFromPhoto = (req, res, next) => {
     .then(country => {
       if (country === "No country identified") {
         return Promise.reject({ status: 404, msg: "No country identified" });
-      } else return res.status(200).send(getCountryData(country));
+      } else {
+        fetchCountryById(country).then((data) => {
+          const result = {
+            msg: country,
+            data
+          }
+          res.status(200).send(result);
+        });
+      }
     })
     .catch(next);
 };

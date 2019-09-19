@@ -30,5 +30,6 @@ const fetchCountryById = (countryId) => {
   return countryModel.findOne({ _id: formatedCountry });
 };
 
+module.exports = mongoose.model('Countries', countrySchema);
 module.exports.fetchCountries = fetchCountries;
 module.exports.fetchCountryById = fetchCountryById;

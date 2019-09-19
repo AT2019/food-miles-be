@@ -12,7 +12,7 @@ const selectCountryFromPhoto = (req, res, next) => {
       if (country === "No country identified") {
         return Promise.reject({ status: 404, msg: "No country identified" });
       } else {
-        fetchCountryById(country).then((data) => {
+        fetchCountryById({ country_id: country }).then((data) => {
           const result = {
             msg: country,
             data

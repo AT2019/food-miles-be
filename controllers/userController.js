@@ -12,7 +12,6 @@ const {
 
 exports.userRegister = async (req, res, next) => {
   // Data Validation
-
   const { error } = registerValidation(req.body);
   if (error) {
     return res.status(400).send({ msg: error.details[0].message });

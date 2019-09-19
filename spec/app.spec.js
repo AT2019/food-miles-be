@@ -81,7 +81,7 @@ describe('Users', () => {
         .expect(404)
         .then(({ body: { msg } }) => expect(msg).to.equal('Email Not Found'));
     });
-    it("PATCH status 204 - responds with 204", () => {
+    it('PATCH status 204 - responds with 204', () => {
       return request(app)
         .post('/api/user/register')
         .send({
@@ -105,7 +105,7 @@ describe('Users', () => {
     });
   });
   describe('/user/register', () => {
-    it('POST status 201, responds with an object', () => {
+    it.only('POST status 201, responds with an object', () => {
       return request(app)
         .post('/api/user/register')
         .send({
@@ -114,9 +114,9 @@ describe('Users', () => {
           password: 'pass123'
         })
         .expect(201)
-        .then(({ body: { savedUser } }) =>
-          expect(savedUser).to.include.keys('name', 'email', 'password')
-        );
+        .then(({ body: { savedUser } }) => {
+          expect(savedUser).to.include.keys('name', 'email', 'password');
+        });
     });
     it('ERROR 400 - POST, if username is less than 6 characters it responds with an error message', () => {
       return request(app)

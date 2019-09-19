@@ -55,6 +55,7 @@ beforeEach(done => {
       }
     );
   });
+  done();
 });
 
 after(done => {

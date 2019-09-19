@@ -25,15 +25,13 @@ exports.findCountry = str => {
     "Spain",
     "Spain."
   ];
-  const strArr = joinedStr.split(" ");
   const outputArr = [];
-  for (let j = 0; j < strArr.length; j++) {
-    for (let i = 0; i < countries.length; i++) {
-      if (strArr[j].includes(countries[i])) {
-        outputArr.push(countries[i]);
-      }
+  for (let i = 0; i < countries.length; i++) {
+    if (joinedStr.includes(countries[i])) {
+      outputArr.push(countries[i]);
     }
   }
+
   if (!outputArr.length) {
     return "No country identified";
   } else if (outputArr.length === 1) {

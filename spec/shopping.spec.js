@@ -13,7 +13,7 @@ describe('app', () => {
           expect(body.shoppings).to.be.an('array');
         });
     });
-    it.only('GET status 200 - it responds with a prev shopping list object', () => {
+    it('GET status 200 - it responds with a prev shopping list object', () => {
       return request(app)
         .post('/api/prevShopping')
         .send({

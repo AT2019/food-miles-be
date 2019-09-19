@@ -23,7 +23,7 @@ const fetchCountries = () => {
   return countryModel.find().then(countries => countries);
 };
 
-const fetchCountryById = (countryId) => {
+const fetchCountryById = ({ countryId }) => {
   const formatedCountry = countryId
     .toLowerCase()
     .replace(/\b\w/g, l => l.toUpperCase());
